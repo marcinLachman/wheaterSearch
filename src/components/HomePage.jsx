@@ -36,11 +36,8 @@ const HomePage = () => {
     return () => abortCont.abort();
   }, [location]);
 
-  const sunrise = new Date(parseInt( wheaterData.data ? wheaterData.data.sunrise : null) * 1000).toLocaleTimeString();
-  const sunset = new Date(parseInt( wheaterData.data ? wheaterData.data.sunset : null) * 1000).toLocaleTimeString();
-
-
-
+  // const sunrise = new Date(parseInt( wheaterData.data ? wheaterData.data.sunrise : null) * 1000).toLocaleTimeString();
+  // const sunset = new Date(parseInt( wheaterData.data ? wheaterData.data.sunset : null) * 1000).toLocaleTimeString();
 
   return (
     <Container>
@@ -85,7 +82,7 @@ const HomePage = () => {
           </Typography>
           </MainBox>
 
-        <MainBox sx={{
+        {/* <MainBox sx={{
           display: 'flex',
           gap: '2rem',
           justifyContent: 'space-evenly',
@@ -101,7 +98,7 @@ const HomePage = () => {
           }}>
             Zachód słońca:  {String(sunset)}
           </Typography>
-          </MainBox>
+          </MainBox> */}
       </Stack>
     </Container>
   )
