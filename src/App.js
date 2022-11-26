@@ -8,7 +8,7 @@ import bgImage from './assets/bg.jpg';
 const App = () => {
   return (
     <Paper sx={{
-      height: "100vh",
+      height: "100%",
       backgroundImage: `url(${bgImage})`,
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
