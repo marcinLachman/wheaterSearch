@@ -14,15 +14,15 @@ const WheaterProvider = ({ children }) => {
 
   const fetchData = async (location) => {
 
-    // const URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=33b8c88e24fd7520b39e5ab673cbc04c`;
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=33b8c88e24fd7520b39e5ab673cbc04c&units=metric`;
 
-    const URL = {
-      method: 'GET',
-      url: 'https://api.api-ninjas.com/v1/weather?city=' + location,
-      headers: {
-        'X-Api-Key': '9mOHnqV32jtdA1NoCrqU0w==0tjMDaNXxjVla68K'
-      }
-    };
+    // const URL = {
+    //   method: 'GET',
+    //   url: 'https://api.api-ninjas.com/v1/weather?city=' + location,
+    //   headers: {
+    //     'X-Api-Key': '9mOHnqV32jtdA1NoCrqU0w==0tjMDaNXxjVla68K'
+    //   }
+    // };
 
     try {
       const response = await axios.request(URL);
