@@ -15,8 +15,6 @@ import {
 
 import ThunderstormIcon from '@mui/icons-material/Thunderstorm';
 import AirIcon from '@mui/icons-material/Air';
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import WbTwilightIcon from '@mui/icons-material/WbTwilight';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 
 
@@ -38,36 +36,27 @@ const HomePage = () => {
   const { wheaterData, fetchData } = useContext(WheaterContext);
   const [input, setInput] = useState('');
   const [location, setLocation] = useState('kraków');
-  // console.log(wheaterData)
 
   useEffect( () => {
     const abortCont = new AbortController();
-    fetchData(location);
-
+      fetchData(location);
     return () => abortCont.abort();
   }, [location]);
 
-  
-  const sunrise = new Date((wheaterData.data ? wheaterData.data.sys.sunrise : null) * 1000).toLocaleTimeString();
-  const sunset = new Date((wheaterData.data ? wheaterData.data.sys.sunset : null) * 1000).toLocaleTimeString();
+  const sunrise = new Date((wheaterData.data.sys ? wheaterData.data.sys.sunrise : null) * 1000).toLocaleTimeString();
+  const sunset = new Date((wheaterData.data.sys ? wheaterData.data.sys.sunset : null) * 1000).toLocaleTimeString();
   const time = new Date((wheaterData.data ? wheaterData.data.dt : null) * 1000).toLocaleTimeString();
   const date = new Date((wheaterData.data ? wheaterData.data.dt : null) * 1000).toLocaleDateString();
-  const icon = wheaterData.data ? wheaterData.data.weather[0].icon : null;
-
-  const dayTime = parseInt(sunrise)
-  const nightTime = parseInt(sunset)
-  const hours = (new Date()).getHours();
-  const isDayTime = hours > dayTime && hours < nightTime;
-
-  console.log(sunrise)
+  const icon = wheaterData.data.weather ? wheaterData.data.weather[0].icon : null;
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setLocation(input);
+
     if (event.key === 'Enter') {
       setLocation(input);;
-    };
-    // setLocation('');
+      setInput('');
+    }
   };
 
   return (
@@ -95,7 +84,7 @@ const HomePage = () => {
           />
           <Button type='submit' variant="outlined">Pokaż</Button>
         </Box>
-        {wheaterData.error ? 'cos' : null}
+        {wheaterData.error ? 'Nie znaleiono miasta' : null}
       </form>
 
       <MainBox>
@@ -103,7 +92,7 @@ const HomePage = () => {
           marginTop: '0.5rem',
           fontWeight: '700',
         }}>
-          {wheaterData.data ? wheaterData.data.name : null}
+          {wheaterData.data ? wheaterData.data.name : null} 
         </Typography>
         <Typography variant="h3" sx={{
           marginTop: '1rem',
@@ -124,12 +113,6 @@ const HomePage = () => {
           marginTop: '1rem',
         }}>
           {date}
-          <Divider orientation="vertical" variant="middle" flexItem sx={{
-            backgroundColor: 'black',
-            borderBottomWidth: 2,
-            margin: '0.5rem',
-          }} />
-          {isDayTime ? 'Dzień' : 'Noc'}
         </Typography>
       </Box>
 
@@ -147,7 +130,7 @@ const HomePage = () => {
           gap: '0.7rem',
           marginTop: '1rem',
         }}>
-          {wheaterData.data ? Math.round(wheaterData.data.main.temp) : null} &#x2103;
+          {wheaterData.data.main ? Math.round(wheaterData.data.main.temp) : null} &#x2103;
           <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="Ikona pogody" /> 
         </Typography>
 
@@ -163,54 +146,36 @@ const HomePage = () => {
             flexDirection: 'row',
             gap: '1rem',
           }}>
-            <CloudQueueIcon /> {wheaterData.data ? wheaterData.data.weather[0].description : null};             
+            <CloudQueueIcon /> {wheaterData.data.weather ? wheaterData.data.weather[0].description : null}
           </Typography>
           <Typography variant="subtitle1" sx={{
             display: 'flex',
             flexDirection: 'row',
             gap: '1rem',
           }}>
-            <ThunderstormIcon /> Wilgotność: {wheaterData.data ? wheaterData.data.main.humidity : null}%;             
+            <ThunderstormIcon /> Wilgotność: {wheaterData.data.main ? wheaterData.data.main.humidity : null}%;
           </Typography>
           <Typography variant="subtitle1" sx={{
             display: 'flex',
             flexDirection: 'row',
             gap: '1rem',
           }}>
-            <AirIcon /> Wiatr: {wheaterData.data ? wheaterData.data.wind.speed : null} m/sec
+            <AirIcon /> Wiatr: {wheaterData.data.wind ? wheaterData.data.wind.speed : null} m/sec
           </Typography>
-        </Box>
-      </Box>
-
-      <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems:'center',
-          gap: '0.7rem',
-          border: '2px solid black',
-          borderRadius: '20px',
-          padding: '1rem',
-      }}>
-        <Box>
-          <Typography variant="subtitle1">
-          <WbSunnyIcon /> Wschód słońca
-        </Typography>
-        <Typography variant="subtitle1" sx={{
-          textAlign: 'center'
-        }}>
-          {sunrise}
-        </Typography>
-        </Box>
-        <Box>
-          <Typography variant="subtitle1">
-          <WbTwilightIcon /> Zachód słońca
-        </Typography>
-        <Typography variant="subtitle1" sx={{
-          textAlign: 'center'
-        }}>
-          {sunset}
-        </Typography>
+          <Typography variant="subtitle1" sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '1rem',
+          }}>
+            <AirIcon /> Wschód słońca: {sunrise}
+          </Typography>
+          <Typography variant="subtitle1" sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            gap: '1rem',
+          }}>
+            <AirIcon /> Zachód słońca: {sunset}
+          </Typography>
         </Box>
       </Box>
     </Stack>
