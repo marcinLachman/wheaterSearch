@@ -18,7 +18,7 @@ import AirIcon from '@mui/icons-material/Air';
 import CloudQueueIcon from '@mui/icons-material/CloudQueue';
 
 
-const MainBox = styled(Box) ( ({ theme }) => ({
+const TopBox = styled(Box) ( ({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'space-evenly',
@@ -31,6 +31,28 @@ const MainBox = styled(Box) ( ({ theme }) => ({
 
   },
 }));
+
+const MainBox = styled(Box) ( ({ theme }) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems:'center',
+    gap: '0.7rem',
+
+  //jeśli jest większy niż sm wyświetl co w nawiasach, nie to co na górze
+  [theme.breakpoints.up('md')]:{
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+
+  },
+}));
+
+const DisplayTypoAura = styled(Typography) ({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '1rem',
+});
 
 const HomePage = () => {
   const { wheaterData, fetchData } = useContext(WheaterContext);
@@ -61,124 +83,99 @@ const HomePage = () => {
 
   return (
     <Container>
-    <Stack spacing={2}>
+      <Stack spacing={2}>
 
-      <form onSubmit={handleSubmit}>
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '3rem',
-          marginTop: '1rem',
-          border: '3px black solid',
-          borderRadius: '20px',
-          padding: '2rem',
-          }}>
-          <TextField sx={{
-            width: '50%'
-          }}
-            label="City Name" 
-            color="primary" 
-            focused 
-            value={input} 
-            onChange={(event) => setInput(event.target.value)} 
-          />
-          <Button type='submit' variant="outlined">Pokaż</Button>
-        </Box>
-        {wheaterData.error ? 'Nie znaleiono miasta' : null}
-      </form>
-
-      <MainBox>
-        <Typography variant="h3" sx={{
-          marginTop: '0.5rem',
-          fontWeight: '700',
-        }}>
-          {wheaterData.data ? wheaterData.data.name : null} 
-        </Typography>
-        <Typography variant="h3" sx={{
-          marginTop: '1rem',
-        }}>
-          {time}
-        </Typography>
-      </MainBox>
-
-      <Divider sx={{
-        backgroundColor: 'black',
-        borderBottomWidth: 1.5,
-      }} />
-
-      <Box>
-        <Typography variant="subtitle1" sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginTop: '1rem',
-        }}>
-          {date}
-        </Typography>
-      </Box>
-
-      <Box sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems:'center',
-          gap: '0.7rem',
-      }}>
-        <Typography variant="h1" sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          alignItems:'center',
-          gap: '0.7rem',
-          marginTop: '1rem',
-        }}>
-          {wheaterData.data.main ? Math.round(wheaterData.data.main.temp) : null} &#x2103;
-          <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="Ikona pogody" /> 
-        </Typography>
-
-        <Divider orientation="vertical" variant="middle" flexItem sx={{
-          backgroundColor: 'black',
-          borderBottomWidth: 2,
-          margin: '0.5rem',
-        }} />
-
-        <Box>
-          <Typography variant="subtitle1" sx={{
+        <form onSubmit={handleSubmit}>
+          <Box sx={{
             display: 'flex',
-            flexDirection: 'row',
-            gap: '1rem',
+            justifyContent: 'center',
+            gap: '3rem',
+            marginTop: '1rem',
+            border: '3px black solid',
+            borderRadius: '20px',
+            padding: '2rem',
+            }}>
+            <TextField sx={{
+              width: '50%'
+            }}
+              label="City Name" 
+              color="primary" 
+              focused 
+              value={input} 
+              onChange={(event) => setInput(event.target.value)} 
+            />
+            <Button type='submit' variant="outlined">Pokaż</Button>
+
+          </Box>
+            <Typography variant="h3" sx={{
+              textAlign: 'center'
+            }}>
+              {wheaterData.error ? 'Nie znaleiono miasta' : null}
+            </Typography>
+        </form>
+
+        <TopBox>
+          <Typography variant="h3" sx={{
+            marginTop: '0.5rem',
+            fontWeight: '700',
           }}>
-            <CloudQueueIcon /> {wheaterData.data.weather ? wheaterData.data.weather[0].description : null}
+            {wheaterData.data ? wheaterData.data.name : null} 
           </Typography>
-          <Typography variant="subtitle1" sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '1rem',
+          <Typography variant="h3" sx={{
+            marginTop: '1rem',
           }}>
-            <ThunderstormIcon /> Wilgotność: {wheaterData.data.main ? wheaterData.data.main.humidity : null}%;
+            {time}
           </Typography>
-          <Typography variant="subtitle1" sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '1rem',
-          }}>
-            <AirIcon /> Wiatr: {wheaterData.data.wind ? wheaterData.data.wind.speed : null} m/sec
-          </Typography>
-          <Typography variant="subtitle1" sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '1rem',
-          }}>
-            <AirIcon /> Wschód słońca: {sunrise}
-          </Typography>
-          <Typography variant="subtitle1" sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: '1rem',
-          }}>
-            <AirIcon /> Zachód słońca: {sunset}
-          </Typography>
-        </Box>
-      </Box>
-    </Stack>
+        </TopBox>
+
+          <Box>
+            <Typography variant="subtitle1">
+              {date}
+            </Typography>
+          </Box>
+
+          <MainBox>
+            <Typography variant="h1" sx={{
+              // display: 'flex',
+              // flexDirection: 'row',
+              // alignItems:'center',
+              gap: '0.7rem',
+              marginTop: '1rem',
+            }}>
+              {wheaterData.data.main ? Math.round(wheaterData.data.main.temp) : null} &#x2103;
+              <img src={`http://openweathermap.org/img/wn/${icon}.png`} alt="Ikona pogody" /> 
+            </Typography>
+
+            <Divider orientation="vertical" variant="middle" flexItem sx={{
+              backgroundColor: 'black',
+              borderBottomWidth: 2,
+              margin: '0.5rem',
+            }} />
+
+          <Box>
+            <DisplayTypoAura variant="subtitle1" >
+              <CloudQueueIcon /> {wheaterData.data.weather ? wheaterData.data.weather[0].description : null}
+            </DisplayTypoAura>
+
+            <DisplayTypoAura variant="subtitle1" >
+              <ThunderstormIcon /> Wilgotność: {wheaterData.data.main ? wheaterData.data.main.humidity : null}%;
+            </DisplayTypoAura>
+
+            <DisplayTypoAura variant="subtitle1" >
+              <AirIcon /> Wiatr: {wheaterData.data.wind ? wheaterData.data.wind.speed : null} m/sec
+            </DisplayTypoAura>
+
+            <DisplayTypoAura variant="subtitle1">
+              <AirIcon /> Wschód słońca: {sunrise}
+            </DisplayTypoAura>
+
+            <DisplayTypoAura variant="subtitle1" >
+              <AirIcon /> Zachód słońca: {sunset}
+            </DisplayTypoAura>
+          </Box>
+
+        </MainBox>
+      </Stack>
     </Container>
   )
 };
